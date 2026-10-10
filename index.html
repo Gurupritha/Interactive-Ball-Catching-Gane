@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Ball Catching Game</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #eaf6ff;
+        }
+
+        h1 {
+            margin-top: 25px;
+            color: #164b78;
+        }
+
+        #score, #timer {
+            display: inline-block;
+            width: 220px;
+            padding: 10px;
+            margin: 5px 15px;
+            font-size: 20px;
+            color: #31506b;
+            background-color: #f5fbff;
+            border: 1px solid #c8dce9;
+            border-radius: 8px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 35px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+
+        #gameArea {
+            width: 400px;
+            height: 160px;
+            background-color: #f4faff;
+            border: 2px solid #8eb4c9;
+            margin: 15px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        #ball {
+            width: 50px;
+            height: 50px;
+            background-color: #1976d2;
+            border-radius: 50%;
+            position: absolute;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Interactive Ball Catching Game</h1>
+
+    <p id="score">Score: 0</p>
+    <p id="timer">Time: 30s</p>
+
+    <button onclick="startGame()">Start Game</button>
+
+    <div id="gameArea">
+        <div id="ball" onclick="catchBall()"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let time = 30;
+        let gameTimer;
+
+        function startGame() {
+            score = 0;
+            time = 30;
+
+            document.getElementById("score").innerHTML =
+                "Score: " + score;
+
+            document.getElementById("timer").innerHTML =
+                "Time: " + time + "s";
+
+            document.getElementById("ball").style.display = "block";
+
+            moveBall();
+
+            clearInterval(gameTimer);
+
+            gameTimer = setInterval(function() {
+                time--;
+
+                document.getElementById("timer").innerHTML =
+                    "Time: " + time + "s";
+
+                if (time <= 0) {
+                    clearInterval(gameTimer);
+
+                    document.getElementById("ball").style.display = "none";
+
+                    alert("Game Over! Your Score is: " + score);
+                }
+            }, 1000);
+        }
+
+        function catchBall() {
+            score++;
+
+            document.getElementById("score").innerHTML =
+                "Score: " + score;
+
+            moveBall();
+        }
+
+        function moveBall() {
+            let gameArea = document.getElementById("gameArea");
+            let ball = document.getElementById("ball");
+
+            let maxX = gameArea.clientWidth - ball.clientWidth;
+            let maxY = gameArea.clientHeight - ball.clientHeight;
+
+            let x = Math.random() * maxX;
+            let y = Math.random() * maxY;
+
+            ball.style.left = x + "px";
+            ball.style.top = y + "px";
+        }
+    </script>
+
+</body>
+</html>
